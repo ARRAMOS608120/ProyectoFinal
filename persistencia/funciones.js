@@ -10,14 +10,14 @@ const usuarioSchema = new mongoose.Schema({
     direccion: {type: String, require: true},
     edad: {type: Number, require: true},
     numero: {type: String, require: true},
-    foto: {type: String, require: true},
+    foto: {type: String, require: true}
 })
 
 const usuarioModel = mongoose.model('usuarios', usuarioSchema)
 
 async function CRUD(){
     try{
-        await mongoose.connect ('mongodb+srv://ariel:Coder2021@cluster0.wjzen.mongodb.net/ecommerce?retryWrites=true&w=majority',{
+        await mongoose.connect (process.env.MONGOURL,{
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
@@ -28,7 +28,7 @@ async function CRUD(){
 }
 
 function crearSesionMongo(){
-    const ruta= {store: MongoStore.create({ mongoUrl:'mongodb+srv://ariel:Coder2021@cluster0.wjzen.mongodb.net/ecommerce?retryWrites=true&w=majority',
+    const ruta= {store: MongoStore.create({ mongoUrl:process.env.MONGOURL,
     mongoOptions: advancedOptions, ttl: 100
     }),
     secret: 'secreto',

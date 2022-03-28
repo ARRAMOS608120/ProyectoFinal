@@ -1,0 +1,21 @@
+<style>
+    #mjeMail {
+        color: blue;
+        font-weight:bold;
+    }
+    #mjeFecha {
+        color: brown;
+    }
+    #mjeMje {
+        color: green;
+        font-style: italic;
+    }
+</style>
+
+{{#if data.length}}
+<ul>
+     {{#each data}}
+     <li><span id="mjeMail">{{this.userid}}</span>[ <span id="mjeFecha">{{this.date}}</span > ]: <span id="mjeMje">{{this.mensaje}}</span></li>
+     {{/each}}
+</ul>
+{{/if}}

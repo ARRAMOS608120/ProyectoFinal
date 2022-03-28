@@ -2,9 +2,10 @@ import config from '../config.js'
 
 let productosDao
 let carritosDao
+let mensajesDao
 
 
-process.env.PERS='firebase'
+process.env.PERS='mongodb'
 
 switch (process.env.PERS) {
     case 'json':
@@ -17,9 +18,10 @@ switch (process.env.PERS) {
     case 'mongodb':
         const { default: ProductosDaoMongoDb } = await import('./productos/ProductosDaoMongoDb.js')
         const { default: CarritosDaoMongoDb } = await import('./carritos/CarritosDaoMongoDb.js')
-    
+        const { default: MensajesDaoMongoDb } = await import('./mensajes/MensajesDaoMongoDb.js')
         productosDao = new ProductosDaoMongoDb()
         carritosDao = new CarritosDaoMongoDb()
+        mensajesDao = new MensajesDaoMongoDb()
         break
     case 'firebase':
         const { default: ProductosDaoFirebase } = await import('./productos/ProductosDaoFirebase.js')
@@ -30,4 +32,4 @@ switch (process.env.PERS) {
         break
 }
 
-export { productosDao, carritosDao }
+export { productosDao, carritosDao, mensajesDao }

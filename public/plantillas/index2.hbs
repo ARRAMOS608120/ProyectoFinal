@@ -1,0 +1,43 @@
+<div class="container mt-3">
+        <h1 class="alert alert-success">
+            Bienvenido  <td>{{nombre}}</td>
+                <button class="btn btn-warning float-right mt-2" onclick="location.href='/logout'">
+                    Desloguear
+                </button>
+        </h1>
+    </div>
+
+    <div class="container mt-3">
+        <div class="alert alert-success">
+           <h1 style="color:blue;">Datos de la cuenta</h1>
+            <div>Usuario/Email:  <td>{{email}}</td></div> 
+            <div>Direccion:  <td>{{direccion}}</td></div> 
+            <div>Edad:  <td>{{edad}}</td></div> 
+            <div>Numero telefonico:  <td>{{numero}}</td></div> 
+            <div>Foto:<img src= {{foto}}></div> 
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 style="color:blue;">Productos totales</h1>
+            <br>
+            {{listado}}
+            <br>   
+        </div>
+            </form>
+            <br>
+            <div id="productos"></div>
+        </div>
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 style="color:blue;">Carrito</h1>
+           <td>{{carrito}}</td>
+            <div id="carrito"></div>
+            <div class="text-left">
+                <button class="btn btn-success my-3" onclick="location.href = '/pedido-finalizado'">Finalizar pedido</button>
+            </div>
+        </div>
+
+

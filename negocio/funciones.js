@@ -39,8 +39,8 @@ function createSendMail(mailConfig) {
       host: 'smtp.ethereal.email',
       port: 587,
       auth: {
-        user: "hailie.murphy14@ethereal.email",
-        pass: "fntUjMdzTmHM5RuQdh"
+        user:process.env.USERMAIL,
+        pass:process.env.PASSMAIL
       }
     })
   }
@@ -68,12 +68,19 @@ function createSendMail(mailConfig) {
   }
   }
   
+  const isAdmin = (userid) => {
+    if(process.env.ADMINUSER==userid.username) {
+        return true;
+    }else {
+        return false;
+    }
+}
 
-  
 export {listarUser,
   guardarUser,
   validarPassword,
   whatsapp,
   createSendMailEthereal,
-  client
+  client,
+  isAdmin
 } 

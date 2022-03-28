@@ -1,7 +1,32 @@
 import express from 'express'
 import exphbs from 'express-handlebars'
 
+import cors from 'cors'
+
+import 'dotenv/config'
+
+import router from './rutas/rutas.js'
+import routerCarrito from './rutas/routerCarrito.js'
+import routerProductos from './rutas/routerProductos.js'
+import routerMensajes from './rutas/routerMensajes.js';
+import routerInfo from './rutas/routerInfo.js';
+import chatHandler from './rutas/websocket.js'
+import logger from './winston-module.js'
+
+import { Server as HttpServer } from 'http';
+import { Server as Socket } from 'socket.io';
+
 const app = express()
+const httpServer = new HttpServer(app);
+const io =  new Socket(httpServer);
+
+
+io.on('connection', async socket => {
+   logger.debug("Usuario conectado")
+   chatHandler(socket, io.sockets)
+})
+
+app.use(cors())
 
 import {CRUD,crearSesionMongo} from './persistencia/funciones.js'
 
@@ -16,17 +41,16 @@ import session from 'express-session'
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 //app.use(express.static('views'))
+app.use(express.static('public'))
 
 
-import { routerCarrito, routerProductos, router } from './rutas/rutas.js'
-import logger from './winston-module.js'
 
 app.use(session(crearSesionMongo()))
 
 app.engine('hbs', exphbs({
   extname: ".hbs",
   defaultLayout: "index.hbs",
-  //layoutsDir: __dirname + "/views/layouts",
+  layoutsDir: __dirname + "/views/layouts",
   partialsDir: __dirname + "/views/partials"
 }))
 
@@ -35,10 +59,12 @@ CRUD();
 app.set('view engine', 'hbs')
 app.set('views', './views')
 
-    
+
 /* Cargo los routers */
+app.use('/chat', routerMensajes) 
 app.use('/api/carrito',routerCarrito)
 app.use('/api/productos',routerProductos)
+app.use('/info', routerInfo)
 app.use('/', router)
 
 /* Server Listen */
@@ -65,8 +91,8 @@ if (modo == "FORK") {
 }
 
 function levantarServer(){
-  const PORT = 8080
-  const server = app.listen(PORT, ()=>{
+  const PORT = process.env.PORT || 8080
+  const server = httpServer.listen(PORT, ()=>{
       logger.info(`Servidor express escuchando en el puerto ${PORT}`)
   });
   server.on('error', error=>logger.error(`Error en servidor: ${error}`));

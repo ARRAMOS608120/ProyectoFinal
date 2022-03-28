@@ -3,11 +3,12 @@ export default {
         path: './'
     },
     mongodb: {
-        cnxStr: 'mongodb://localhost:27017/ecommerce',
+        cnxStr: process.env.MONGOURL,
         options: {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-           // useCreateIndex: true,
+           //'mongodb://localhost:27017/ecommerce' 
+           //useCreateIndex: true,
             serverSelectionTimeoutMS: 1000,
         }
     },

@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import config from '../config.js'
 
 
-await mongoose.connect(config.mongodb.cnxStr, config.mongodb.options)
+await mongoose.createConnection(config.mongodb.cnxStr, config.mongodb.options)
 
 class ContenedorMongoDb {
 
